@@ -4,8 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/ASWokespace/MyTik/app/src/main/res/drawable/shape_login_btn.xml" value="0.325" />
+        <entry key="..\:/ASWokespace/MyTik/app/src/main/res/drawable/shape_login_form.xml" value="0.23489583333333333" />
         <entry key="..\:/ASWokespace/MyTik/app/src/main/res/drawable/shape_register_btn.xml" value="0.325" />
+        <entry key="..\:/ASWokespace/MyTik/app/src/main/res/drawable/shape_search_box.xml" value="0.32037037037037036" />
+        <entry key="..\:/ASWokespace/MyTik/app/src/main/res/layout/activity_login.xml" value="0.21875" />
         <entry key="..\:/ASWokespace/MyTik/app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="..\:/ASWokespace/MyTik/app/src/main/res/layout/activity_register.xml" value="0.18110435663627153" />
       </map>
     </option>
   </component>
