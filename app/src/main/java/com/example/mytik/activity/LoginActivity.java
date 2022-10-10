@@ -3,6 +3,7 @@ package com.example.mytik.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -60,36 +61,7 @@ public class LoginActivity extends BaseActivity {
                     showToast("账号:" + accountInLogin.getText().toString() +
                             "密码:" + pwdInLogin.getText().toString());
                     Log.d(TAG, "开始请求登录接口");
-                    //1.client
-                    OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                            .build();
-                    //2.request
-                    //请求参数
-                    Map map = new HashMap();
-                    map.put("mobile", account);
-                    map.put("password", pwd);
-                    JSONObject jsonObject = new JSONObject(map);
-                    String toString = jsonObject.toString();
-                    RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), toString);
-                    Request request = new Request.Builder()
-                            .url(URL_LOGIN)
-                            .addHeader("contentType", "application/json;charset=utf-8")
-                            .post(requestBody)
-                            .build();
-                    //3.call
-                    Call call = okHttpClient.newCall(request);
-                    //4.post
-                    call.enqueue(new Callback() {
-                        @Override
-                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                            Log.e(TAG, "onFailure: " + e );
-                        }
-
-                        @Override
-                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                            Log.e(TAG, "onResponse: " + response.body().toString());
-                        }
-                    });
+                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                 }
             }
         });
@@ -99,5 +71,41 @@ public class LoginActivity extends BaseActivity {
         accountInLogin = findViewById(R.id.accountInLogin);
         pwdInLogin = findViewById(R.id.pwdInLogin);
         bigLogin = findViewById(R.id.bigLogin);
+    }
+
+    /**
+     * http请求 后面补充
+     */
+    private void httpReq() {
+        //1.client
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .build();
+        //2.request
+        //请求参数
+        Map map = new HashMap();
+        //map.put("mobile", account);
+        //map.put("password", pwd);
+        JSONObject jsonObject = new JSONObject(map);
+        String toString = jsonObject.toString();
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), toString);
+        Request request = new Request.Builder()
+                .url(URL_LOGIN)
+                .addHeader("contentType", "application/json;charset=utf-8")
+                .post(requestBody)
+                .build();
+        //3.call
+        Call call = okHttpClient.newCall(request);
+        //4.post
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e(TAG, "onFailure: " + e );
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                Log.e(TAG, "onResponse: " + response.body().toString());
+            }
+        });
     }
 }
