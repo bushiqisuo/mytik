@@ -1,0 +1,19 @@
+<permissionlist>
+    <package name="com.coolpad.coolclean">   //next()或者  getEventType() 函数是获取TAG 的 。
+        //这条是 START_TAG, getName()函数获取到 TAG中的名称 package ,getAttributeValue(null, "name") 这个函数获取到 属性name中的值“com.coolpad.coolclean”
+        <perm name="android.permission.READ_PHONE_STATE" />
+        <perm name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <perm name="android.permission.READ_EXTERNAL_STORAGE" />
+    </package> //这是END_TAG （调用getName（）会获取到 名称package）, 再调用next函数会读取到 TEXT 标签
+    <package name="com.yulong.coolfuncservice">
+        <perm name="android.permission.READ_PHONE_STATE" />
+        <perm name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    </package>
+    <package name="com.yulong.membercenter">
+        <perm name="android.permission.READ_PHONE_STATE" />
+    </package>
+    <package name="com.yulong.android.gallery">
+        <perm name="android.permission.READ_EXTERNAL_STORAGE" />
+        <perm name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    </package>
+</permissionlist>

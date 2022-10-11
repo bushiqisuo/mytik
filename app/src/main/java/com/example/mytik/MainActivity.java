@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.example.mytik.activity.LoginActivity;
 import com.example.mytik.activity.RegisterActivity;
+import com.example.mytik.util.ContextHolder;
 
 public class MainActivity extends AppCompatActivity {
     private Button loginBtn;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ContextHolder.setContext(getApplicationContext());
 
         loginBtn = findViewById(R.id.loginBtn);
         loginBtn.setOnClickListener(new View.OnClickListener() {
