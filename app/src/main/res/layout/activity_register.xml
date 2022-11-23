@@ -73,6 +73,7 @@
                     android:textColorHint="@color/hintColor"
                     android:textSize="18sp"
                     android:textColor="@color/black"
+                    android:inputType="textPassword"
                     android:background="@null"
                     android:layout_marginStart="20dp"/>
             </LinearLayout>

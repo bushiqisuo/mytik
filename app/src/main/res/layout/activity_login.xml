@@ -71,6 +71,7 @@
                     android:layout_marginLeft="20dp"
                     android:hint="@string/pwd_hint"
                     android:textColorHint="@color/hintColor"
+                    android:inputType="textPassword"
                     android:background="@null"
                     android:textSize="18sp"
                     android:textColor="@color/black"/>
