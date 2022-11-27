@@ -1,5 +1,6 @@
 package com.example.mytik.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -55,7 +56,7 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void initView() {
+    protected void initView() {
         accountInLogin = findViewById(R.id.accountInLogin);
         pwdInLogin = findViewById(R.id.pwdInLogin);
         bigLogin = findViewById(R.id.bigLogin);
@@ -82,8 +83,9 @@ public class LoginActivity extends BaseActivity {
                 if (loginResponse.getCode() == 0) {
                     String token = loginResponse.getToken();
                     SpUtil.storeString(LoginActivity.this, "token", token);
+                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                    showToastAsync(response);
                 }
-                showToastAsync(response);
             }
 
             @Override
