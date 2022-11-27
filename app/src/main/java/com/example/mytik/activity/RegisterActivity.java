@@ -61,7 +61,7 @@ public class RegisterActivity extends BaseActivity {
 
     private void register(String account, String pwd) {
         //请求参数
-        HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map = new HashMap();
         map.put("mobile", account);
         map.put("password", pwd);
         Api.config(ApiConfig.REGISTER_URL, map).postRequest(new ApiCallback() {
