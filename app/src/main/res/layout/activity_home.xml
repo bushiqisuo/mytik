@@ -8,12 +8,16 @@
     android:background="@color/white"
     tools:context=".activity.HomeActivity">
 
-    <androidx.viewpager.widget.ViewPager
+    <com.example.mytik.view.TabViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/devideColor"/>
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/commonTabLayout"
         android:layout_width="match_parent"

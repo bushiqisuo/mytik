@@ -1,6 +1,5 @@
 package com.example.mytik.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -42,8 +41,21 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        initView();
+    }
+
+    @Override
+    protected int initLayout() {
+        return R.layout.activity_home;
+    }
+
+    @Override
+    protected void initView() {
+        mViewPager = findViewById(R.id.viewPager);
+        mTabLayout = findViewById(R.id.commonTabLayout);
+    }
+
+    @Override
+    protected void initData() {
         mFragments.add(HomeFragment.newInstance());
         mFragments.add(CollectFragment.newInstance());
         mFragments.add(MyFragment.newInstance());
@@ -57,11 +69,6 @@ public class HomeActivity extends BaseActivity {
         initTabLayout();
     }
 
-    protected void initView() {
-        mViewPager = findViewById(R.id.viewPager);
-        mTabLayout = findViewById(R.id.commonTabLayout);
-    }
-
     private void initTabLayout() {
         Random mRandom = new Random();
         mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
@@ -73,7 +80,7 @@ public class HomeActivity extends BaseActivity {
             @Override
             public void onTabReselect(int position) {
                 if (position == 0) {
-                    mTabLayout.showMsg(0, mRandom.nextInt(100) + 1);
+                    //mTabLayout.showMsg(0, mRandom.nextInt(100) + 1);
 //                    UnreadMsgUtils.show(mTabLayout_2.getMsgView(0), mRandom.nextInt(100) + 1);
                 }
             }

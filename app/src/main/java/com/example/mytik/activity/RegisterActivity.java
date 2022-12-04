@@ -37,8 +37,22 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
-        initView();
+
+    }
+
+    @Override
+    protected int initLayout() {
+        return R.layout.activity_register;
+    }
+
+    protected void initView() {
+        bigRegister = findViewById(R.id.bigRegister);
+        accountInRegister = findViewById(R.id.accountInRegister);
+        pwdInRegister = findViewById(R.id.pwdInRegister);
+    }
+
+    @Override
+    protected void initData() {
         bigRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,12 +67,6 @@ public class RegisterActivity extends BaseActivity {
                 }
             }
         });
-    }
-
-    protected void initView() {
-        bigRegister = findViewById(R.id.bigRegister);
-        accountInRegister = findViewById(R.id.accountInRegister);
-        pwdInRegister = findViewById(R.id.pwdInRegister);
     }
 
     private void register(String account, String pwd) {

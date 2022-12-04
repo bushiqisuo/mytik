@@ -15,6 +15,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        setContentView(initLayout());
+        initView();
+        initData();
     }
 
     protected void showToast(String str) {
@@ -26,4 +29,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         Toast.makeText(mContext, str, Toast.LENGTH_SHORT).show();
         Looper.loop();
     }
+
+    protected abstract int initLayout();
+
+    protected abstract void initView();
+
+    protected abstract void initData();
 }

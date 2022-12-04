@@ -30,13 +30,21 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-
-        initView();
-        initEvent();
     }
 
-    private void initEvent() {
+    @Override
+    protected int initLayout() {
+        return R.layout.activity_login;
+    }
+
+    protected void initView() {
+        accountInLogin = findViewById(R.id.accountInLogin);
+        pwdInLogin = findViewById(R.id.pwdInLogin);
+        bigLogin = findViewById(R.id.bigLogin);
+    }
+
+    @Override
+    protected void initData() {
         bigLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,12 +62,6 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         });
-    }
-
-    protected void initView() {
-        accountInLogin = findViewById(R.id.accountInLogin);
-        pwdInLogin = findViewById(R.id.pwdInLogin);
-        bigLogin = findViewById(R.id.bigLogin);
     }
 
     /**
