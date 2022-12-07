@@ -16,7 +16,6 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class HomeActivity extends BaseActivity {
     private static final String TAG = "HomeActivity";
@@ -64,13 +63,12 @@ public class HomeActivity extends BaseActivity {
         }
 
         mTabLayout.setTabData(mTabEntities);
+        mViewPager.setOffscreenPageLimit(mFragments.size());
         mViewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), mTitles, mFragments));
-
         initTabLayout();
     }
 
     private void initTabLayout() {
-        Random mRandom = new Random();
         mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
