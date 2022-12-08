@@ -31,7 +31,7 @@
                 android:layout_marginLeft="11dp">
 
                 <TextView
-                    android:id="@+id/title"
+                    android:id="@+id/videoTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -75,10 +75,10 @@
             app:layout_constraintDimensionRatio="16:9"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.dueeeke.videocontroller.component.PrepareView
-                android:id="@+id/prepare_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+<!--            <com.dueeeke.videocontroller.component.PrepareView-->
+<!--                android:id="@+id/prepare_view"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent" />-->
 
         </FrameLayout>
 

@@ -3,6 +3,8 @@ package com.example.mytik.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.mytik.R;
+import com.example.mytik.adapter.VideoAdapter;
+import com.example.mytik.entity.VideoEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,8 +55,22 @@ public class VideoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_video, container, false);
-        TextView videoText = v.findViewById(R.id.videoText);
-        videoText.setText(title);
+        RecyclerView videoRecyclerView = v.findViewById(R.id.videoRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        videoRecyclerView.setLayoutManager(layoutManager);
+        List<VideoEntity> datas = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            VideoEntity videoEntity = new VideoEntity();
+            videoEntity.setTitle("韭菜盒子新做法，不发面");
+            videoEntity.setName("大胃王");
+            videoEntity.setDzCount(i * 3);
+            videoEntity.setCollectCount(i * 2);
+            videoEntity.setCommentCount(i);
+            datas.add(videoEntity);
+        }
+        VideoAdapter videoAdapter = new VideoAdapter(getActivity(), datas);
+        videoRecyclerView.setAdapter(videoAdapter);
         return v;
     }
 }
