@@ -77,42 +77,5 @@ public class HomeFragment extends Fragment {
         viewPager.setOffscreenPageLimit(mFragments.size());
         viewPager.setAdapter(new HomeAdapter(getFragmentManager(), mTitles, mFragments));
         slidingTabLayout.setViewPager(viewPager);
-        initTabLayout();
-    }
-
-    private void initTabLayout() {
-        slidingTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelect(int position) {
-                viewPager.setCurrentItem(position);
-            }
-
-            @Override
-            public void onTabReselect(int position) {
-                if (position == 0) {
-                    //mTabLayout.showMsg(0, mRandom.nextInt(100) + 1);
-//                    UnreadMsgUtils.show(mTabLayout_2.getMsgView(0), mRandom.nextInt(100) + 1);
-                }
-            }
-        });
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                slidingTabLayout.setCurrentTab(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        viewPager.setCurrentItem(1);
     }
 }
