@@ -2,20 +2,32 @@ package com.example.mytik.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.mytik.R;
+import com.example.mytik.activity.LoginActivity;
 import com.example.mytik.adapter.VideoAdapter;
+import com.example.mytik.api.Api;
+import com.example.mytik.api.ApiCallback;
+import com.example.mytik.api.ApiConfig;
 import com.example.mytik.entity.VideoEntity;
+import com.example.mytik.entity.VideoListResponse;
+import com.example.mytik.util.SpUtil;
+import com.example.mytik.util.StringUtils;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,9 +35,14 @@ import java.util.List;
  * Use the {@link VideoFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VideoFragment extends Fragment {
+public class VideoFragment extends BaseFragment {
+    private static final String TAG = "VideoFragment";
 
     private String title;
+
+    private RecyclerView videoRecyclerView;
+
+    private List<VideoEntity> datas;
 
     public VideoFragment() {
         // Required empty public constructor
@@ -55,22 +72,50 @@ public class VideoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_video, container, false);
-        RecyclerView videoRecyclerView = v.findViewById(R.id.videoRecyclerView);
+        videoRecyclerView = v.findViewById(R.id.videoRecyclerView);
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         videoRecyclerView.setLayoutManager(layoutManager);
-        List<VideoEntity> datas = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            VideoEntity videoEntity = new VideoEntity();
-            videoEntity.setTitle("韭菜盒子新做法，不发面");
-            videoEntity.setName("大胃王");
-            videoEntity.setDzCount(i * 3);
-            videoEntity.setCollectCount(i * 2);
-            videoEntity.setCommentCount(i);
-            datas.add(videoEntity);
+
+        getVideoList();
+    }
+
+    private void getVideoList() {
+        HashMap<String, Object> params = new HashMap<>();
+        String token = SpUtil.getString(getActivity(), "token", "");
+        if (StringUtils.isEmpty(token)) {
+            navigateTo(LoginActivity.class);
+            return;
         }
-        VideoAdapter videoAdapter = new VideoAdapter(getActivity(), datas);
-        videoRecyclerView.setAdapter(videoAdapter);
-        return v;
+        params.put("token", token);
+        Api.config(ApiConfig.VIDEO_LIST_URL, params).getRequest(new ApiCallback() {
+            @Override
+            public void onSuccess(String response) {
+                Log.e(TAG, "onSuccess: " + response);
+                VideoListResponse videoListResponse = new Gson().fromJson(response, VideoListResponse.class);
+                if (videoListResponse!=null && videoListResponse.getCode()==0) {
+                    datas = videoListResponse.getPage().getList();
+                    VideoAdapter videoAdapter = new VideoAdapter(getActivity(), videoListResponse.getPage().getList());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            videoRecyclerView.setAdapter(videoAdapter);
+                        }
+                    });
+                }
+                showToastAsync(response);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                Log.e(TAG, "onFailure: " + e);
+            }
+        });
     }
 }

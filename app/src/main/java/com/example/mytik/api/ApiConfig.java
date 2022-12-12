@@ -6,4 +6,6 @@ public class ApiConfig {
     public static final String LOGIN_URL = "/app/login";
 
     public static final String REGISTER_URL = "/app/register";
+
+    public static final String VIDEO_LIST_URL = "/app/videolist/list";
 }
