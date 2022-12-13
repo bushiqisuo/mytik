@@ -51,7 +51,9 @@ public class BaseFragment extends Fragment {
     }
 
     public void showToastSync(String msg) {
-        Looper.prepare();
+        if (Looper.myLooper() == null) {
+            Looper.prepare();
+        }
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         Looper.loop();
     }
