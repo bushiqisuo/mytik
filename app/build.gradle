@@ -44,4 +44,11 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation  'io.github.scwang90:refresh-layout-kernel:2.0.5'      //核心必须依赖
     implementation  'io.github.scwang90:refresh-header-classics:2.0.5'    //经典刷新头
+
+    //视频
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-java:3.3.6'
+    implementation 'xyz.doikki.android.dkplayer:dkplayer-ui:3.3.6'
+    implementation 'xyz.doikki.android.dkplayer:player-exo:3.3.6'
+    implementation 'xyz.doikki.android.dkplayer:player-ijk:3.3.6'
+    implementation 'xyz.doikki.android.dkplayer:videocache:3.3.6'
 }

@@ -1,9 +1,11 @@
 package com.example.mytik.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,14 +14,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mytik.R;
 import com.example.mytik.entity.VideoEntity;
+import com.example.mytik.listener.OnItemChildClickListener;
+import com.example.mytik.listener.OnItemClickListener;
 import com.example.mytik.view.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import xyz.doikki.videocontroller.component.PrepareView;
+
 public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<VideoEntity> data;
+
+    private OnItemChildClickListener mOnItemChildClickListener;
+
+    private OnItemClickListener mOnItemClickListener;
 
     public VideoAdapter(Context context) {
         this.context = context;
@@ -38,7 +48,7 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
         VideoEntity entity = data.get(position);
 
@@ -51,7 +61,10 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 .load(entity.getHeadurl())
                 .transform(new CircleTransform())
                 .into(viewHolder.imgHeader);
-        Picasso.with(context).load(entity.getCoverurl()).into(viewHolder.imgCover);
+        Picasso.with(context)
+                .load(entity.getCoverurl())
+                .into(viewHolder.mThumb);
+        viewHolder.mPosition = position;
     }
 
     @Override
@@ -62,14 +75,17 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return 0;
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private TextView title;
         private TextView author;
         private TextView comment;
         private TextView collect;
         private TextView dz;
         private ImageView imgHeader;
-        private ImageView imgCover;
+        public ImageView mThumb;
+        public PrepareView mPrepareView;
+        public FrameLayout mPlayerContainer;
+        public int mPosition;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,7 +95,38 @@ public class VideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             collect = itemView.findViewById(R.id.collect);
             dz = itemView.findViewById(R.id.dz);
             imgHeader = itemView.findViewById(R.id.img_header);
-            imgCover = itemView.findViewById(R.id.img_cover);
+            mPrepareView = itemView.findViewById(R.id.prepare_view);
+            mPlayerContainer = itemView.findViewById(R.id.player_container);
+            mThumb = mPrepareView.findViewById(R.id.thumb);
+
+            if (mOnItemChildClickListener != null) {
+                mPlayerContainer.setOnClickListener(this);
+            }
+            if (mOnItemClickListener != null) {
+                itemView.setOnClickListener(this);
+            }
+            itemView.setTag(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.player_container) {
+                if (mOnItemChildClickListener != null) {
+                    mOnItemChildClickListener.onItemChildClick(mPosition);
+                }
+            } else {
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(mPosition);
+                }
+            }
+        }
+    }
+
+    public void setOnItemChildClickListener(OnItemChildClickListener onItemChildClickListener) {
+        mOnItemChildClickListener = onItemChildClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 }
