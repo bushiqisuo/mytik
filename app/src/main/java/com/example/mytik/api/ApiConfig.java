@@ -8,4 +8,8 @@ public class ApiConfig {
     public static final String REGISTER_URL = "/app/register";
 
     public static final String VIDEO_LIST_URL = "/app/videolist/list";
+
+    public static final String VIDEO_LIST_BY_CATEGORY = "/app/videolist/getListByCategoryId";
+
+    public static final String VIDEO_CATEGORY_LIST = "/app/videocategory/list";
 }

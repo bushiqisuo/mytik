@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +41,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import xyz.doikki.videocontroller.StandardVideoController;
 import xyz.doikki.videocontroller.component.CompleteView;
@@ -57,6 +60,8 @@ public class VideoFragment extends BaseFragment implements OnItemChildClickListe
     private static final String TAG = "VideoFragment";
 
     private String title;
+
+    private int categoryId;
 
     private int page = 1;
 
@@ -86,12 +91,26 @@ public class VideoFragment extends BaseFragment implements OnItemChildClickListe
      */
     protected int mLastPos = mCurPos;
 
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    List<VideoEntity> collect = datas.stream().filter(v -> v.getCategoryId() == categoryId).collect(Collectors.toList());
+                    videoAdapter.setData(collect);
+                    videoAdapter.notifyDataSetChanged();
+                    break;
+            }
+        }
+    };
+
     public VideoFragment() {
     }
 
-    public static VideoFragment newInstance(String param) {
+    public static VideoFragment newInstance(int categoryId) {
         VideoFragment fragment = new VideoFragment();
-        fragment.title = param;
+        fragment.categoryId = categoryId;
         return fragment;
     }
 
@@ -176,40 +195,35 @@ public class VideoFragment extends BaseFragment implements OnItemChildClickListe
             return;
         }
         params.put("token", token);
-        params.put("page", page);
-        params.put("limit", Constants.PAGE_LIMIT);
+        //params.put("page", page);
+        params.put("limit", Constants.MAX_LIMIT);//此处暂查询所有，本地分类。后端接口有问题
+        //params.put("categoryId", categoryId);
         Api.config(ApiConfig.VIDEO_LIST_URL, params).getRequest(new ApiCallback() {
             @Override
             public void onSuccess(String response) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+                if (isRefresh) {
+                    refreshLayout.finishRefresh(true);
+                }else {
+                    refreshLayout.finishLoadMore(true);
+                }
+                VideoListResponse videoListResponse = new Gson().fromJson(response, VideoListResponse.class);
+                if (videoListResponse!=null && videoListResponse.getCode()==0) {
+                    List<VideoEntity> list = videoListResponse.getPage().getList();
+                    if (list!=null && list.size()>0) {
                         if (isRefresh) {
-                            refreshLayout.finishRefresh(true);
-                        }else {
-                            refreshLayout.finishLoadMore(true);
+                            datas = list;
+                        } else {
+                            datas.addAll(list);
                         }
-                        VideoListResponse videoListResponse = new Gson().fromJson(response, VideoListResponse.class);
-                        if (videoListResponse!=null && videoListResponse.getCode()==0) {
-                            List<VideoEntity> list = videoListResponse.getPage().getList();
-                            if (list!=null && list.size()>0) {
-                                if (isRefresh) {
-                                    datas = list;
-                                } else {
-                                    datas.addAll(list);
-                                }
-                                videoAdapter.setData(datas);
-                                videoAdapter.notifyDataSetChanged();
-                            } else {
-                                if (isRefresh) {
-                                    showToastSync("暂时加载无数据");
-                                } else {
-                                    showToastSync("暂无更多数据");
-                                }
-                            }
+                        mHandler.sendEmptyMessage(0);
+                    } else {
+                        if (isRefresh) {
+                            showToastSync("暂时加载无数据");
+                        } else {
+                            showToastSync("暂无更多数据");
                         }
                     }
-                });
+                }
             }
 
             @Override
