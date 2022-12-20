@@ -11,6 +11,7 @@ import com.example.mytik.entity.TabEntity;
 import com.example.mytik.fragment.CollectFragment;
 import com.example.mytik.fragment.HomeFragment;
 import com.example.mytik.fragment.MyFragment;
+import com.example.mytik.fragment.NewsFragment;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 public class HomeActivity extends BaseActivity {
     private static final String TAG = "HomeActivity";
 
-    private String[] mTitles = {"首页", "收藏", "我的"};
+    private String[] mTitles = {"首页", "资讯", "我的"};
 
     private int[] mIconUnselectIds = {R.mipmap.home_unselect, R.mipmap.collect_unselect,
             R.mipmap.my_unselect};
@@ -56,7 +57,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void initData() {
         mFragments.add(HomeFragment.newInstance());
-        mFragments.add(CollectFragment.newInstance());
+        mFragments.add(NewsFragment.newInstance());
         mFragments.add(MyFragment.newInstance());
         for (int i = 0; i < mTitles.length; i++) {
             mTabEntities.add(new TabEntity(mTitles[i], mIconSelectIds[i], mIconUnselectIds[i]));
