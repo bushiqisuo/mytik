@@ -12,4 +12,6 @@ public class ApiConfig {
     public static final String VIDEO_LIST_BY_CATEGORY = "/app/videolist/getListByCategoryId";
 
     public static final String VIDEO_CATEGORY_LIST = "/app/videocategory/list";
+
+    public static final String NEWS_LIST = "/app/news/api/list";
 }

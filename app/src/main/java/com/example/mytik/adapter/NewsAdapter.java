@@ -5,12 +5,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mytik.R;
 import com.example.mytik.entity.NewsEntity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -45,12 +48,49 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         int type = getItemViewType(position);
+        NewsEntity newsEntity = data.get(position);
         if (type == 1) {
             ViewHolderOne viewHolder = (ViewHolderOne) holder;
+            viewHolder.title.setText(newsEntity.getNewsTitle());
+            viewHolder.author.setText(newsEntity.getAuthorName());
+            viewHolder.comment.setText(newsEntity.getCommentCount() + "评论.");
+            viewHolder.time.setText(newsEntity.getReleaseDate());
+            Picasso.with(context)
+                    .load(newsEntity.getHeaderUrl())
+                    .into(viewHolder.header);
+            Picasso.with(context)
+                    .load(newsEntity.getThumbEntities().get(0).getThumbUrl())
+                    .into(viewHolder.thumb);
         } else if (type == 2) {
             ViewHolderTwo viewHolder = (ViewHolderTwo) holder;
+            viewHolder.title.setText(newsEntity.getNewsTitle());
+            viewHolder.author.setText(newsEntity.getAuthorName());
+            viewHolder.comment.setText(newsEntity.getCommentCount() + "评论.");
+            viewHolder.time.setText(newsEntity.getReleaseDate());
+            Picasso.with(context)
+                    .load(newsEntity.getHeaderUrl())
+                    .into(viewHolder.header);
+            Picasso.with(context)
+                    .load(newsEntity.getThumbEntities().get(0).getThumbUrl())
+                    .into(viewHolder.pic1);
+            Picasso.with(context)
+                    .load(newsEntity.getThumbEntities().get(1).getThumbUrl())
+                    .into(viewHolder.pic2);
+            Picasso.with(context)
+                    .load(newsEntity.getThumbEntities().get(2).getThumbUrl())
+                    .into(viewHolder.pic3);
         } else {
             ViewHolderThree viewHolder = (ViewHolderThree) holder;
+            viewHolder.title.setText(newsEntity.getNewsTitle());
+            viewHolder.author.setText(newsEntity.getAuthorName());
+            viewHolder.comment.setText(newsEntity.getCommentCount() + "评论.");
+            viewHolder.time.setText(newsEntity.getReleaseDate());
+            Picasso.with(context)
+                    .load(newsEntity.getHeaderUrl())
+                    .into(viewHolder.header);
+            Picasso.with(context)
+                    .load(newsEntity.getThumbEntities().get(0).getThumbUrl())
+                    .into(viewHolder.thumb);
         }
     }
 
@@ -69,21 +109,57 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public class ViewHolderOne extends RecyclerView.ViewHolder{
+        private TextView title;
+        private ImageView thumb;
+        private ImageView header;
+        private TextView author;
+        private TextView comment;
+        private TextView time;
         public ViewHolderOne(@NonNull View itemView) {
             super(itemView);
-            itemView.setTag(this);
+            title = itemView.findViewById(R.id.title);
+            thumb = itemView.findViewById(R.id.thumb);
+            header = itemView.findViewById(R.id.header);
+            author = itemView.findViewById(R.id.author);
+            comment = itemView.findViewById(R.id.comment);
+            time = itemView.findViewById(R.id.time);
         }
     }
     public class ViewHolderTwo extends RecyclerView.ViewHolder{
+        private TextView title;
+        private ImageView header;
+        private TextView author;
+        private TextView comment;
+        private TextView time;
+        private ImageView pic1, pic2, pic3;
+
         public ViewHolderTwo(@NonNull View itemView) {
             super(itemView);
-            itemView.setTag(this);
+            title = itemView.findViewById(R.id.title);
+            pic1 = itemView.findViewById(R.id.pic1);
+            pic2 = itemView.findViewById(R.id.pic2);
+            pic3 = itemView.findViewById(R.id.pic3);
+            header = itemView.findViewById(R.id.header);
+            author = itemView.findViewById(R.id.author);
+            comment = itemView.findViewById(R.id.comment);
+            time = itemView.findViewById(R.id.time);
         }
     }
     public class ViewHolderThree extends RecyclerView.ViewHolder{
+        private TextView title;
+        private ImageView thumb;
+        private ImageView header;
+        private TextView author;
+        private TextView comment;
+        private TextView time;
         public ViewHolderThree(@NonNull View itemView) {
             super(itemView);
-            itemView.setTag(this);
+            title = itemView.findViewById(R.id.title);
+            thumb = itemView.findViewById(R.id.thumb);
+            header = itemView.findViewById(R.id.header);
+            author = itemView.findViewById(R.id.author);
+            comment = itemView.findViewById(R.id.comment);
+            time = itemView.findViewById(R.id.time);
         }
     }
 }
