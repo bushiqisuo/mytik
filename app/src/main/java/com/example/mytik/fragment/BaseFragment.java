@@ -17,7 +17,6 @@ import xyz.doikki.videoplayer.player.VideoViewManager;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link BaseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public abstract class BaseFragment extends Fragment {
@@ -68,6 +67,12 @@ public abstract class BaseFragment extends Fragment {
 
     public void navigateTo(Class cls) {
         Intent in = new Intent(getActivity(), cls);
+        startActivity(in);
+    }
+
+    public void navigateToWithBundle(Class cls, Bundle bundle) {
+        Intent in = new Intent(getActivity(), cls);
+        in.putExtras(bundle);
         startActivity(in);
     }
 

@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mytik.R;
 import com.example.mytik.entity.NewsEntity;
+import com.example.mytik.listener.OnItemClickListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -29,6 +31,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void setData(List<NewsEntity> data) {
         this.data = data;
     }
+
+    private OnItemClickListener mOnItemClickListener;
 
     @NonNull
     @Override
@@ -51,6 +55,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         NewsEntity newsEntity = data.get(position);
         if (type == 1) {
             ViewHolderOne viewHolder = (ViewHolderOne) holder;
+            viewHolder.newsEntity = newsEntity;
             viewHolder.title.setText(newsEntity.getNewsTitle());
             viewHolder.author.setText(newsEntity.getAuthorName());
             viewHolder.comment.setText(newsEntity.getCommentCount() + "评论.");
@@ -63,6 +68,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .into(viewHolder.thumb);
         } else if (type == 2) {
             ViewHolderTwo viewHolder = (ViewHolderTwo) holder;
+            viewHolder.newsEntity = newsEntity;
             viewHolder.title.setText(newsEntity.getNewsTitle());
             viewHolder.author.setText(newsEntity.getAuthorName());
             viewHolder.comment.setText(newsEntity.getCommentCount() + "评论.");
@@ -81,6 +87,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .into(viewHolder.pic3);
         } else {
             ViewHolderThree viewHolder = (ViewHolderThree) holder;
+            viewHolder.newsEntity = newsEntity;
             viewHolder.title.setText(newsEntity.getNewsTitle());
             viewHolder.author.setText(newsEntity.getAuthorName());
             viewHolder.comment.setText(newsEntity.getCommentCount() + "评论.");
@@ -115,6 +122,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView author;
         private TextView comment;
         private TextView time;
+        private NewsEntity newsEntity;
         public ViewHolderOne(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
@@ -123,6 +131,12 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             author = itemView.findViewById(R.id.author);
             comment = itemView.findViewById(R.id.comment);
             time = itemView.findViewById(R.id.time);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(newsEntity);
+                }
+            });
         }
     }
     public class ViewHolderTwo extends RecyclerView.ViewHolder{
@@ -132,6 +146,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView comment;
         private TextView time;
         private ImageView pic1, pic2, pic3;
+        private NewsEntity newsEntity;
 
         public ViewHolderTwo(@NonNull View itemView) {
             super(itemView);
@@ -143,6 +158,12 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             author = itemView.findViewById(R.id.author);
             comment = itemView.findViewById(R.id.comment);
             time = itemView.findViewById(R.id.time);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(newsEntity);
+                }
+            });
         }
     }
     public class ViewHolderThree extends RecyclerView.ViewHolder{
@@ -152,6 +173,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView author;
         private TextView comment;
         private TextView time;
+        private NewsEntity newsEntity;
         public ViewHolderThree(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
@@ -160,6 +182,20 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             author = itemView.findViewById(R.id.author);
             comment = itemView.findViewById(R.id.comment);
             time = itemView.findViewById(R.id.time);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClick(newsEntity);
+                }
+            });
         }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Serializable obj);
     }
 }

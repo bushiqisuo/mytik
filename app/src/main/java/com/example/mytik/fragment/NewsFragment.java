@@ -1,5 +1,6 @@
 package com.example.mytik.fragment;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mytik.R;
 import com.example.mytik.activity.LoginActivity;
+import com.example.mytik.activity.WebActivity;
 import com.example.mytik.adapter.NewsAdapter;
 import com.example.mytik.api.Api;
 import com.example.mytik.api.ApiCallback;
@@ -27,6 +29,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -101,6 +104,17 @@ public class NewsFragment extends BaseFragment {
         newsAdapter = new NewsAdapter(getActivity());
         newsAdapter.setData(datas);
         newsRecyclerView.setAdapter(newsAdapter);
+        newsAdapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Serializable obj) {
+                //showToast("点击");
+                NewsEntity newsEntity = (NewsEntity) obj;
+                String url = "http://47.112.180.188:8089/newsDetail?title" + newsEntity.getAuthorName();
+                Bundle bundle = new Bundle();
+                bundle.putString("url", url);
+                navigateToWithBundle(WebActivity.class, bundle);
+            }
+        });
 
         newsRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
