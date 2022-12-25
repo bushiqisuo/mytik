@@ -71,6 +71,8 @@ public class VideoFragment extends BaseFragment implements OnItemChildClickListe
 
     private List<VideoEntity> datas = new ArrayList<>();
 
+    private List<VideoEntity> collect = new ArrayList<>();//此分类页面video集合
+
     private VideoAdapter videoAdapter;
 
     private LinearLayoutManager layoutManager;
@@ -97,7 +99,7 @@ public class VideoFragment extends BaseFragment implements OnItemChildClickListe
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    List<VideoEntity> collect = datas.stream().filter(v -> v.getCategoryId() == categoryId).collect(Collectors.toList());
+                    collect = datas.stream().filter(v -> v.getCategoryId() == categoryId).collect(Collectors.toList());
                     videoAdapter.setData(collect);
                     videoAdapter.notifyDataSetChanged();
                     break;
@@ -312,7 +314,7 @@ public class VideoFragment extends BaseFragment implements OnItemChildClickListe
         if (mCurPos != -1) {
             releaseVideoView();
         }
-        VideoEntity videoEntity = datas.get(position);
+        VideoEntity videoEntity = collect.get(position);
         //边播边存
 //        String proxyUrl = ProxyVideoCacheManager.getProxy(getActivity()).getProxyUrl(videoBean.getUrl());
 //        mVideoView.setUrl(proxyUrl);
